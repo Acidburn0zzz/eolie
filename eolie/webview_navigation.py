@@ -139,7 +139,6 @@ class WebViewNavigation:
                                  None,
                                  None)
                     self.content_manager.add_style_sheet(user_style_sheet)
-                self.update_spell_checking()
                 self.update_zoom_level()
                 user_agent = El().websettings.get_user_agent(uri)
                 settings = self.get_settings()
@@ -173,6 +172,7 @@ class WebViewNavigation:
             self.set_favicon(False)
             if parsed.scheme != "populars":
                 self.set_snapshot()
+            self.update_spell_checking()
             if El().show_tls:
                 try:
                     from OpenSSL import crypto
