@@ -8,8 +8,6 @@ Eolie is a new GNOME web browser.
 
 - For users: http://gnumdk.github.io/eolie-web
 
-- FAQ: https://github.com/gnumdk/eolie/wiki
-
 - For translators: https://hosted.weblate.org/projects/eolie/eolie/
 
 It provides:
