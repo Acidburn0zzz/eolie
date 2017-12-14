@@ -2,8 +2,6 @@
 
 [![Join the chat at https://gitter.im/gnumdk/lollypop](https://badges.gitter.im/gnumdk/lollypop.svg)](https://gitter.im/gnumdk/lollypop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-![Eolie logo](https://raw.githubusercontent.com/gnumdk/eolie/master/data/icons/hicolor/256x256/apps/org.gnome.Eolie.png)
-
 Eolie is a new GNOME web browser.
 
 - Adblock helpers (please contribute): https://github.com/gnumdk/eolie-adblock

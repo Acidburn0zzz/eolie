@@ -26,7 +26,7 @@ DATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project
 bindir = join_paths(get_option('prefix'), get_option('bindir'))
 
 conf = configuration_data()
-conf.set('PACKAGE_URL', 'https://github.com/gnumdk/eolie')
+conf.set('PACKAGE_URL', 'https://gitlab.gnome.org/gnumdk/eolie')
 conf.set('DATA_DIR', DATA_DIR)
 conf.set('EXTENSION_DIR', EXTENSION_DIR)
 conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))

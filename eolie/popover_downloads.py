@@ -82,8 +82,12 @@ class DownloadRow(Gtk.ListBoxRow):
             self.__download.cancel()
             self.get_style_context().add_class("download-failed")
         elif self.__button_image.get_icon_name()[0] == "view-refresh-symbolic":
-            WebKit2.WebContext.get_default().download_uri(self.__uri)
+            webview = self.__download.get_web_view()
             El().download_manager.remove(self.__download)
+            if webview is None:
+                WebKit2.WebContext.get_default().download_uri(self.__uri)
+            else:
+                webview.download_uri(self.__uri)
             self.destroy()
 
 #######################
@@ -208,38 +212,38 @@ class DownloadRow(Gtk.ListBoxRow):
             @param download as WebKit2.Download
             @param length as int
         """
-        response = download.get_response()
-        if response is None:
-            return
-        incoming = response.get_content_length() -\
-            download.get_received_data_length()
-        new_time = time()
-        self.__download_bytes += length
-        if self.__download_previous_time is not None:
-            delta = new_time - self.__download_previous_time
-            # Update every 1 seconds
-            if delta > 1:
-                bytes_per_second = 1 * self.__download_bytes /\
-                                    delta
-                self.__avg_download_rates.append(bytes_per_second)
-                self.set_tooltip_text(self.__human_bytes_per_sec(
-                                                         bytes_per_second))
-                # Calculate average for last 10 rates
-                avg = 0
-                for rate in self.__avg_download_rates:
-                    avg += rate
-                if len(self.__avg_download_rates) > 10:
-                    self.__avg_download_rates.pop(0)
-                avg /= len(self.__avg_download_rates)
-                if incoming > 0:
-                    seconds = incoming / avg
-                    self.__sublabel.set_label(
+        try:
+            response = download.get_response()
+            incoming = response.get_content_length() - length
+            new_time = time()
+            self.__download_bytes += length
+            if self.__download_previous_time is not None:
+                delta = new_time - self.__download_previous_time
+                # Update every 1 seconds
+                if delta > 1:
+                    bytes_per_second = 1 * self.__download_bytes /\
+                                        delta
+                    self.__avg_download_rates.append(bytes_per_second)
+                    self.set_tooltip_text(self.__human_bytes_per_sec(
+                                                             bytes_per_second))
+                    # Calculate average for last 10 rates
+                    avg = 0
+                    for rate in self.__avg_download_rates:
+                        avg += rate
+                    if len(self.__avg_download_rates) > 10:
+                        self.__avg_download_rates.pop(0)
+                    avg /= len(self.__avg_download_rates)
+                    if incoming > 0:
+                        seconds = incoming / avg
+                        self.__sublabel.set_label(
                                             self.__human_seconds(int(seconds)))
-                self.__download_bytes = 0
+                    self.__download_bytes = 0
+                    self.__download_previous_time = new_time
+            else:
                 self.__download_previous_time = new_time
-        else:
-            self.__download_previous_time = new_time
-        self.__progress.set_fraction(download.get_estimated_progress())
+            self.__progress.set_fraction(download.get_estimated_progress())
+        except Exception as e:
+            print("DownloadPopover::__on_received_data():", e)
 
     def __on_finished(self, download):
         """

@@ -128,7 +128,7 @@ class DatabaseAdblock:
             else:
                 argv = [git,
                         "clone",
-                        "https://github.com/gnumdk/eolie-adblock.git",
+                        "https://gitlab.gnome.org/gnumdk/eolie-adblock.git",
                         ADBLOCK_JS]
             (pid, a1, a2, a3) = GLib.spawn_async(
                                     argv,
